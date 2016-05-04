@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+
+//import gradle scripts
+apply from: rootProject.file('gradle/pmd.gradle')
+apply from: rootProject.file('gradle/checkstyle.gradle')
+//apply from: rootProject.file('gradle/findbugs.gradle')
+apply from: rootProject.file('gradle/jacoco.gradle')
+
+// Manifest version information!
+def versionMajor = 0
+def versionMinor = 1
+def versionPatch = 0
+def versionBuild = 0
+
+def buildTime = new Date().format("dd-MM-yyyy'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "be.appfoundry.mvpimplementation"
+        minSdkVersion 9
+        targetSdkVersion 23
+        versionCode buildVersionCode(versionMajor, versionMinor, versionPatch, versionBuild)
+        versionName buildVersionName(versionMajor, versionMinor, versionPatch)
+
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    testCompile(libraries.junit, libraries.robolectric)
+
+    compile(libraries.android_appcompat)
+}
+
+def buildVersionName(versionMajor, versionMinor, versionPatch) {
+    return "${versionMajor}.${versionMinor}.${versionPatch}"
+}
+
+def buildVersionCode(versionMajor, versionMinor, versionPatch, versionBuild) {
+    return versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
+}

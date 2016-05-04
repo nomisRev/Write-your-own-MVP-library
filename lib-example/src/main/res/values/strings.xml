@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Lib example</string>
+    <string name="detail_activity">Detail activity</string>
+</resources>
