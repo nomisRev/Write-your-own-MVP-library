@@ -11,7 +11,7 @@ Because everyone and every team has specific preferences or setups I recommend d
 ![MVC](MVC.png)
 
 * Model: The model is an abstract model that organizes elements. In other words the model is used to store and retrieve data. The model doesn't know anything about the views and controllers.
-* View: The view is being presented to the user and the component that the user ueses to interact with the app.
+* View: The view is being presented to the user and the component that the user uses to interact with the app.
 * Controller: The controller/presenter is the decision maker and the glue between the model and view. The controller updates the view when the model changes.
 
 #### Controller versus Presenter
@@ -31,12 +31,12 @@ Because everyone and every team has specific preferences or setups I recommend d
 
 #### Why would you use it?
 * It allows for a loosely coupled architecture. Loosely coupled systems have tons of benefits but that topic is out of the scope of this article. Here are 2 benefits (among many more) to give you an idea why you'll love this in your code.
-    * Allow simultaneous work between developers who are responsible for different components (such as UI layer and core logic). In most cases the model is defined at the start of the project, once the model is known you can define a contract between the view and presenter. Now the developers know how to communicate between the presenter and view is defined and thus don't need to know how it is implemented.
+    * Allow simultaneous work between developers who are responsible for different components (such as UI layer and core logic). In most cases the model is defined at the start of the project, once the model is known you can define a contract between the view and presenter. Now the developers know how the communication between the presenter and view is defined and thus don't need to know how it is implemented.
     * Separation of view logic from business logic. Allowing for interchangeable components and implementations.
 
 ## How does this translate to Android?
 
-* As might be clear, MVP is better suited for Android. A good reason for this is keeping the Presenter package android-code free as a result for not being responsible for changing views. This makes it perfect for interchanging it with other Java projects. And making it easier to be unit tested.
+* As might be clear, MVP is better suited for Android. A good reason for this is keeping the Presenter free of android package imports as a result for not being responsible for changing views. This makes it perfect for interchanging it with other Java projects. And making it easier to be unit tested.
 * Let's say we would use a controller. We would have to give it a reference to the activity context in order to switch to a different activity. Now on a switch of activity we'd need to replace the old context reference to the new activities context references. Writing that sentence already felt like a hassle. So let's avoid that.
 
 * Presenter: Holds our business logic.
@@ -47,7 +47,7 @@ Because everyone and every team has specific preferences or setups I recommend d
 There are a couple of decisions we need to make. These are the ones I prefer and will demonstrate/explain in this article.
     * The Presenter is lifecycle free.
     * We do not retain the presenter over config change.
-    * Presenter package android-code free
+    * The presenter class should have no android package imports.
 
 #### The contract
 * First let's create the contract between the View and the Presenter.
@@ -89,7 +89,7 @@ The Presenter is pretty straight forward if you're familiar with Java.
 
 ## Abstract the code and make a library
 
-* We now have a concrete implementation of an MVP archtiecture, but it's not really a library yet, is it? So let's abstract it to something we can add to every project.
+* We now have a concrete implementation of an MVP architecture, but it's not really a library yet, is it? So let's abstract it to something we can add to every project.
 
 #### View
 
