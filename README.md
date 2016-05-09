@@ -1,17 +1,17 @@
 # Write your own Android MVP library
 
-With all the MVP hype lately lets talk about what MVP is and how we can create our very own library that is perfect for your requirements.
+With all the MVP hype lately lets talk about what MVP is and how you can create your very own library that is perfect for your requirements.
 
-Because everyone and every team has specific preferences or setups I recommend developing your own MVP implementation. So you can code it to your own liking and customize it to the needs of your own project or team. Writing your own implementation will seem like a lot of work but it really isn't, and you'll really know what is going on instead of relying on someone else his library without knowing what is going down under the hood.
+Because everyone and every team has specific preferences or setups I recommend developing your own MVP implementation. Then you can code it to your liking and customize it to the needs of your project or team. Writing a full MVP implementation will seem like a lot of work but it really is not. As a bonus you will really understand what is going on instead of relying on someone else's library without knowing what is going down under the hood.
 
 ## What is MVC/MVP & why would you use it.
 
-* Some people may be more familiar with the term MVC from other languages or frameworks. There is a small difference between MVP and MVC but more about that below. First let's analyze the different components in MVC/MVP and how they interact.
+* Some people may be more familiar with the term MVC from other languages or frameworks. There is a small difference between MVP and MVC but more about that below. First we will analyze the different components in MVC/MVP and how they interact.
 
 ![MVC](MVC.png)
 
-* Model: The model is an abstract model that organizes elements in other words the model is used to store and retrieve data. The model doesn't know anything about the views and controllers.
-* View: The view is what's presented to the users and how users interact with the app.
+* Model: The model is an abstract model that organizes elements. In other words the model is used to store and retrieve data. The model doesn't know anything about the views and controllers.
+* View: The view is being presented to the user and the component that the user ueses to interact with the app.
 * Controller: The controller/presenter is the decision maker and the glue between the model and view. The controller updates the view when the model changes.
 
 #### Controller versus Presenter
@@ -19,7 +19,7 @@ Because everyone and every team has specific preferences or setups I recommend d
 
 ![Controller](controller.png)
 
-* So let's analyze what happens here. As you can see the controller does three things.
+* Let us analyze what happens here. As you can see the controller does three things.
     1. A controller can be in control of multiple views, and thus is responsible for which view to display.
     2. The controller is the middle man between communication between the views and the model.
     3. The controller takes care of logic.
@@ -30,14 +30,14 @@ Because everyone and every team has specific preferences or setups I recommend d
 
 
 #### Why would you use it?
-* It allows for a loosely coupled system. Loosely coupled systems have tons of benefits but that topic is out of the scope of this article, here are some benefits to give you an idea why you'll love this in your code.
-    * Allow simultaneous work between developers who are responsible for different components (such as UI layer and core logic). In most cases the model is defined at the start of the project, once the model is know you can define a contract between the view and controller. Now the developers know how to communication between the controller and view is defined and thus don't need to know how it is implemented.
+* It allows for a loosely coupled architecture. Loosely coupled systems have tons of benefits but that topic is out of the scope of this article. Here are 2 benefits (among many more) to give you an idea why you'll love this in your code.
+    * Allow simultaneous work between developers who are responsible for different components (such as UI layer and core logic). In most cases the model is defined at the start of the project, once the model is known you can define a contract between the view and presenter. Now the developers know how to communicate between the presenter and view is defined and thus don't need to know how it is implemented.
     * Separation of view logic from business logic. Allowing for interchangeable components and implementations.
 
 ## How does this translate to Android?
 
-* As might be clear MVP is better suited for Android. A good reason for this is keeping the Presenter android package free as a result for not being responsible for changing views, this makes it perfect for interchanging it with other Java projects. And making it easier to be unit tested.
-* Let's say we'd use a controller. We would have to give it a reference to the activity context in order to switch to a different activity. Now on a switch of activity we'd need to replace the old context reference to the new activities context references. Writing that sentence already felt like a hassle. So let's avoid that.
+* As might be clear, MVP is better suited for Android. A good reason for this is keeping the Presenter package android-code free as a result for not being responsible for changing views. This makes it perfect for interchanging it with other Java projects. And making it easier to be unit tested.
+* Let's say we would use a controller. We would have to give it a reference to the activity context in order to switch to a different activity. Now on a switch of activity we'd need to replace the old context reference to the new activities context references. Writing that sentence already felt like a hassle. So let's avoid that.
 
 * Presenter: Holds our business logic.
 * View: Our view is responsible for visualizing the model to the user.
@@ -47,7 +47,7 @@ Because everyone and every team has specific preferences or setups I recommend d
 There are a couple of decisions we need to make. These are the ones I prefer and will demonstrate/explain in this article.
     * The Presenter is lifecycle free.
     * We do not retain the presenter over config change.
-    * Presenter Android package free
+    * Presenter package android-code free
 
 #### The contract
 * First let's create the contract between the View and the Presenter.
@@ -69,7 +69,7 @@ public interface MVPContract {
 * Presenter: We want our Presenter to do several things.
     * Retrieve dataObject from somewhere
     * Attach the View
-    * Detach the View
+    * Detach the View (to avoid activity leaks)
 
 #### View implementation (Activity)
 * The activity is our View and thus it must implement MainView.
@@ -77,7 +77,7 @@ public interface MVPContract {
     1. We must create our Presenter in our View because of Android lifecycle so in `onCreate` we'll create our Presenter. `presenter = new MainPresenter();`
     2. Our must Presenter must have a reference to our View so we'll attach the view `presenter.attachView(this)`.
     3. From this point on we have a Presenter and we can rely on it for logic.
-    4. In `onDestroy()` we'll detach ourself since we won't exist anymore after this point.
+    4. In `onDestroy()` we'll detach the view since it won't exist anymore after this point.
 * We now have a Presenter so we can use it to do what was defined in the contract. So let's call `presenter.getData()`, we are not interested in waiting until it returns. It will notify the View when it needs to show something.
 * Implement the View's contract methods
 
@@ -89,18 +89,18 @@ The Presenter is pretty straight forward if you're familiar with Java.
 
 ## Abstract the code and make a library
 
-* It's not really a library yet, is it? So let's abstract it a little bit more and let's create something we can add to every project.
+* We now have a concrete implementation of an MVP archtiecture, but it's not really a library yet, is it? So let's abstract it to something we can add to every project.
 
 #### View
 
-* Our View is our Activity, so let's analyze what happens here.
+* Our View is our Activity. Here's the list of things it does:
 `public class MainActivity extends AppCompatActivity implements MVPContract.MainView {`
-    1. We implement our `MVPContract.MainView` to ensure our MPV View upholds its contract.
+    1. We implement our `MVPContract.MainView` to ensure our MVP View upholds its contract.
     2. The activity holds a reference to the `Presenter`
     3. Create the `Presenter` in `onCreate` and attach ourself to it.
     4. In `onDestroy` we detach ourself.
 
-* This is the minimum functionality we need for every View, so let's create a `BaseMVPContract` with a `BaseMvpView`. And an abstract class `BaseMvpActivity` we extend from to create our `Views`.
+* This is the minimum functionality we need for every View. To ensure this we create a `BaseMVPContract` with a `BaseMvpView` and an abstract class `BaseMvpActivity` we extend from to create our `Views`.
 * Our `BaseMvpView` doesn't require any initial functionality because it's only responsible for showing data. Showing data is case specific so it becomes an empty interface.
 
 ```java
@@ -183,4 +183,4 @@ public abstract class BasePresenter<V extends BaseMVPContract.BaseMvpView> imple
 
 ## Highly customizable and your own responsibility
 
-Some of us prefer the idea of being in control of our architecture. Because you wrote it yourself, if something goes wrong no-one else is to blame but more importantly because you wrote it yourself you know exactly what is going on and in my eyes it's less error prone. Every library has a learning curve because you don't know the code base, nor do you know all the functionality unless you spend time getting familiar with all of it.
+Some of us prefer the idea of being in control of our architecture. Because you wrote it yourself, if something goes wrong no-one else is to blame. But more importantly because you wrote it yourself you know exactly what is going on and in my experience it's less error prone. Every library has a learning curve because you don't know the code base, nor do you know all the functionality unless you spend time getting familiar with all of it.
