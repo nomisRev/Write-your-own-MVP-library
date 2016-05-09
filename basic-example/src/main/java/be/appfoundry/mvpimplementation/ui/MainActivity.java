@@ -1,9 +1,14 @@
 package be.appfoundry.mvpimplementation.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import be.appfoundry.mvpimplementation.BasicMvpApp;
 import be.appfoundry.mvpimplementation.R;
+import be.appfoundry.mvpimplementation.core.ThreadFactory;
 import be.appfoundry.mvpimplementation.model.DataObject;
 
 public class MainActivity extends AppCompatActivity implements MVPContract.MainView {
@@ -19,13 +24,15 @@ public class MainActivity extends AppCompatActivity implements MVPContract.MainV
         presenter.attachView(this);
 
         dataView = (TextView) findViewById(R.id.data_view);
-        presenter.getData();
+
+        ThreadFactory.provideNewThread(() -> presenter.getData()).start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachView();
+        BasicMvpApp.watch(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +40,38 @@ public class MainActivity extends AppCompatActivity implements MVPContract.MainV
 
     @Override
     public void showData(final DataObject dataObject) {
-        dataView.setText(dataObject.getDataString());
+        runOnUiThreadIfAlive(() -> dataView.setText(dataObject.getDataString()));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // All the things on other threads!
+
+    @NonNull private static final Handler MAIN_THREAD_HANDLER = new Handler(Looper.getMainLooper());
+
+    private boolean isAlive;
+
+    //Don't change the views on the main thread before onResume or after onPause()
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isAlive = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isAlive = false;
+    }
+
+    protected void runOnUiThreadIfAlive(@NonNull Runnable runnable) {
+        if (Looper.myLooper() == Looper.getMainLooper() && isAlive) {
+            runnable.run();
+        } else {
+            MAIN_THREAD_HANDLER.post(() -> {
+                if (isAlive) {
+                    runnable.run();
+                }
+            });
+        }
     }
 }

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: "me.tatarka.retrolambda"
 
 //import gradle scripts
 apply from: rootProject.file('gradle/pmd.gradle')
@@ -26,6 +28,8 @@ android {
         versionName buildVersionName(versionMajor, versionMinor, versionPatch)
 
         buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -33,17 +37,33 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     lintOptions {
         abortOnError false
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    testCompile(libraries.junit, libraries.robolectric)
+    debugCompile(libraries.leak_canary)
 
-    compile(libraries.android_appcompat)
+    androidTestCompile(libraries.espresso,
+        libraries.espresso_runner,
+        libraries.support_annotations,
+        libraries.leak_canary_release)
+
+    testCompile(libraries.junit, libraries.robolectric,libraries.leak_canary_release)
+
+    compile(libraries.android_appcompat,libraries.design_support)
+
+    releaseCompile(libraries.leak_canary_release)
 }
 
 def buildVersionName(versionMajor, versionMinor, versionPatch) {

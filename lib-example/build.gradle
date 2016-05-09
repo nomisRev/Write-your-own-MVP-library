@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: "me.tatarka.retrolambda"
 
 //import gradle scripts
@@ -41,13 +42,17 @@ android {
     lintOptions {
         abortOnError false
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
     testCompile(libraries.junit, libraries.robolectric)
 
-    compile(libraries.android_appcompat)
+    compile(libraries.android_appcompat,libraries.design_support,libraries.kotlin)
 }
 
 def buildVersionName(versionMajor, versionMinor, versionPatch) {
