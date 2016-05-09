@@ -48,7 +48,8 @@ buildscript {
                      mockito            : "org.mockito:mockito-all:$mockito_version",
                      robolectric        : "org.robolectric:robolectric:$robolectric_version",
                      espresso           : "com.android.support.test.espresso:espresso-core:$espresso_version",
-                     espresso_runner    : "com.android.support.test:runner:$espresso_runner_version"]
+                     espresso_runner    : "com.android.support.test:runner:$espresso_runner_version",
+                     espresso_intents   : "com.android.support.test.espresso:espresso-intents:$espresso_version"]
 
 
     repositories {

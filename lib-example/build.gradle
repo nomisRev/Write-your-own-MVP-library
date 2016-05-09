@@ -28,6 +28,8 @@ android {
         versionName buildVersionName(versionMajor, versionMinor, versionPatch)
 
         buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -53,6 +55,13 @@ dependencies {
     debugCompile(libraries.leak_canary)
 
     releaseCompile(libraries.leak_canary_release)
+
+    androidTestCompile(
+        libraries.espresso,
+        libraries.espresso_runner,
+        libraries.espresso_intents,
+        libraries.support_annotations,
+        libraries.leak_canary_release)
 
     testCompile(libraries.junit, libraries.robolectric,libraries.leak_canary_release)
 
