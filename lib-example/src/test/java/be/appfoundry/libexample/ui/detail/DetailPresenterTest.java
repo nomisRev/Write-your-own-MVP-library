@@ -6,13 +6,13 @@ import org.junit.Test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class DetailPresenterImplTest {
+public class DetailPresenterTest {
     DetailMVPContract.DetailPresenter detailPresenter;
     MockDetailView mockDetailView;
 
     @Before
     public void setUp() throws Exception {
-        this.detailPresenter = new DetailPresenterImpl();
+        this.detailPresenter = new DetailPresenter();
         this.mockDetailView = new MockDetailView();
     }
 

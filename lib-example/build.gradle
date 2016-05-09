@@ -50,9 +50,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    testCompile(libraries.junit, libraries.robolectric)
+    debugCompile(libraries.leak_canary)
 
-    compile(libraries.android_appcompat,libraries.design_support,libraries.kotlin)
+    releaseCompile(libraries.leak_canary_release)
+
+    testCompile(libraries.junit, libraries.robolectric,libraries.leak_canary_release)
+
+    compile(libraries.android_appcompat,libraries.design_support)
 }
 
 def buildVersionName(versionMajor, versionMinor, versionPatch) {

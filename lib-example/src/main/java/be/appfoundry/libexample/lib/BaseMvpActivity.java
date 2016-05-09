@@ -7,16 +7,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-public abstract class BaseMvpActivity<P extends BaseMVPContract.BasePresenter> extends AppCompatActivity
-    implements BaseMVPContract.BaseMvpView {
-    @NonNull private static final Handler MAIN_THREAD_HANDLER = new Handler(Looper.getMainLooper());
+public abstract class BaseMvpActivity<P extends BaseMVPContract.BasePresenter>
+    extends AppCompatActivity implements BaseMVPContract.BaseMvpView {
+
+    @NonNull private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
 
     protected P presenter;
     private boolean isAlive;
 
-    protected abstract
     @NonNull
-    P createPresenter();
+    protected abstract P createPresenter();
 
     @Override
     protected void onCreate(@Nullable final Bundle savedState) {
@@ -48,7 +48,7 @@ public abstract class BaseMvpActivity<P extends BaseMVPContract.BasePresenter> e
         if (Looper.myLooper() == Looper.getMainLooper() && isAlive) {
             runnable.run();
         } else {
-            MAIN_THREAD_HANDLER.post(() -> {
+            MAIN_HANDLER.post(() -> {
                 if (isAlive) {
                     runnable.run();
                 }

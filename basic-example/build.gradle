@@ -5,7 +5,7 @@ apply plugin: "me.tatarka.retrolambda"
 //import gradle scripts
 apply from: rootProject.file('gradle/pmd.gradle')
 apply from: rootProject.file('gradle/checkstyle.gradle')
-//apply from: rootProject.file('gradle/findbugs.gradle')
+apply from: rootProject.file('gradle/findbugs.gradle')
 apply from: rootProject.file('gradle/jacoco.gradle')
 
 // Manifest version information!
@@ -15,6 +15,10 @@ def versionPatch = 0
 def versionBuild = 0
 
 def buildTime = new Date().format("dd-MM-yyyy'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+
+jacoco {
+    toolVersion = "0.7.4+"
+}
 
 android {
     compileSdkVersion 23
@@ -35,6 +39,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testCoverageEnabled true
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
     compileOptions {
@@ -44,9 +52,6 @@ android {
     lintOptions {
         abortOnError false
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
 }
 
 dependencies {
@@ -54,16 +59,17 @@ dependencies {
 
     debugCompile(libraries.leak_canary)
 
-    androidTestCompile(libraries.espresso,
+    releaseCompile(libraries.leak_canary_release)
+
+    compile(libraries.android_appcompat,libraries.design_support)
+
+    androidTestCompile(
+        libraries.espresso,
         libraries.espresso_runner,
         libraries.support_annotations,
         libraries.leak_canary_release)
 
     testCompile(libraries.junit, libraries.robolectric,libraries.leak_canary_release)
-
-    compile(libraries.android_appcompat,libraries.design_support)
-
-    releaseCompile(libraries.leak_canary_release)
 }
 
 def buildVersionName(versionMajor, versionMinor, versionPatch) {

@@ -2,15 +2,14 @@ package be.appfoundry.mvpimplementation.ui;
 
 import be.appfoundry.mvpimplementation.service.DataService;
 import be.appfoundry.mvpimplementation.service.ServiceFactory;
-import be.appfoundry.mvpimplementation.ui.MVPContract.MainPresenter;
 import be.appfoundry.mvpimplementation.ui.MVPContract.MainView;
 
-public class MainPresenterImpl implements MainPresenter {
+public class MainPresenter implements MVPContract.MainPresenter {
 
     private MainView view;
     private final DataService dataService;
 
-    public MainPresenterImpl() {
+    public MainPresenter() {
         dataService = ServiceFactory.provideDataService();
     }
 

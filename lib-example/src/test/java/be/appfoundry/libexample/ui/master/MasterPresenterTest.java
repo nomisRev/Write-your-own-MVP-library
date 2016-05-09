@@ -6,13 +6,13 @@ import org.junit.Test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class MasterPresenterImplTest {
+public class MasterPresenterTest {
     MasterMVPContract.MasterPresenter mainPresenter;
     MockMasterView mockMasterView;
 
     @Before
     public void setUp() throws Exception {
-        this.mainPresenter = new MasterPresenterImpl();
+        this.mainPresenter = new MasterPresenter();
         this.mockMasterView = new MockMasterView();
     }
 

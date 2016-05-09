@@ -1,6 +1,7 @@
 package be.appfoundry.libexample.ui.detail;
 
 import android.app.Activity;
+import android.widget.Button;
 import android.widget.TextView;
 import be.appfoundry.libexample.BuildConfig;
 import be.appfoundry.libexample.R;
@@ -45,5 +46,22 @@ public class DetailActivityTest {
         activity.showData(dataObject);
         final TextView dataView = (TextView) activity.findViewById(R.id.data_view);
         assertEquals(dataString,dataView.getText().toString());
+    }
+
+    @Test
+    public void testSnackbarButton() {
+        final DetailActivity activity = Robolectric.buildActivity(DetailActivity.class).create().start().resume().visible().get();
+        final Button snackbarButton = (Button) activity.findViewById(R.id.show_snackbar);
+        assertNotNull(snackbarButton);
+    }
+
+    @Test
+    public void testSnackbar() {
+        final DetailActivity activity = Robolectric.buildActivity(DetailActivity.class).create().start().resume().visible().get();
+        final Button snackbarButton = (Button) activity.findViewById(R.id.show_snackbar);
+        snackbarButton.performClick();
+        final TextView snackbar = (TextView) activity.findViewById(android.support.design.R.id.snackbar_text);
+        assertNotNull(snackbar);
+        assertEquals(snackbar.getText(),"Snackbar shown");
     }
 }

@@ -1,20 +1,19 @@
 package be.appfoundry.mvpimplementation.ui;
 
-import be.appfoundry.mvpimplementation.ui.MVPContract.MainPresenter;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class MainPresenterImplTest {
+public class MainPresenterTest {
 
-    MainPresenter mainPresenter;
+    MVPContract.MainPresenter mainPresenter;
     MockMainView mockMainView;
 
     @Before
     public void setUp() throws Exception {
-        this.mainPresenter = new MainPresenterImpl();
+        this.mainPresenter = new MainPresenter();
         this.mockMainView = new MockMainView();
     }
 

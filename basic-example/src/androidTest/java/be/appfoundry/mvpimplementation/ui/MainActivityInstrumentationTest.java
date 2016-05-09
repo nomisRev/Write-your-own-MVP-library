@@ -15,16 +15,19 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
+import static junit.framework.Assert.assertNotNull;
+import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class MainActivityInstrumentationTest {
     @Rule public ActivityTestRule<MainActivity> mainActivityTestRule =
-        new ActivityTestRule<>(
-            MainActivity.class,
-            false,    // initialTouchMode
-            false);   // launchActivity. False to set intent per test);
+        new ActivityTestRule<>(MainActivity.class);
+
+    @Test
+    public void preConditions() {
+        assertNotNull(mainActivityTestRule.getActivity());
+    }
 
     @Test
     public void testDataViewDisplayed() {
@@ -36,17 +39,7 @@ public class MainActivityInstrumentationTest {
         onView(withId(R.id.data_view)).check(matches(withText("Fake dataObject")));
     }
 
-    @Test
-    public void testSnackbar() {
-        onView(snackbarWithText("Test")).check(matches(isDisplayed()));
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void launchDefaultMainActivity() {
-        mainActivityTestRule.launchActivity(null); //Launch activity with default intent
-    }
-
 
     private Matcher<View> snackbarWithText(String text) {
         return allOf(withId(android.support.design.R.id.snackbar_text), withText(text));

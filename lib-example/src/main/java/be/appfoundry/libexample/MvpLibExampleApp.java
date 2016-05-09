@@ -1,4 +1,4 @@
-package be.appfoundry.mvpimplementation;
+package be.appfoundry.libexample;
 
 import android.app.Application;
 import android.content.Context;
@@ -6,11 +6,7 @@ import android.support.annotation.Nullable;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-public class BasicMvpApp extends Application {
-
-    @Nullable
-    private RefWatcher refWatcher;
-
+public class MvpLibExampleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -20,10 +16,12 @@ public class BasicMvpApp extends Application {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // LeakCanary Impl
 
-    public static void watch(final Context context) {
-        final BasicMvpApp application = (BasicMvpApp) context.getApplicationContext();
+    public static void watch(Context context) {
+        MvpLibExampleApp application = (MvpLibExampleApp) context.getApplicationContext();
         if (application.refWatcher != null) {
             application.refWatcher.watch(context);
         }
     }
+
+    @Nullable private RefWatcher refWatcher;
 }

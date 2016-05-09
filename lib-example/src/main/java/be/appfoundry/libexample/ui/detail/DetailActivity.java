@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import be.appfoundry.libexample.MvpLibExampleApp;
 import be.appfoundry.libexample.R;
 import be.appfoundry.libexample.core.ThreadFactory;
 import be.appfoundry.libexample.lib.BaseMvpActivity;
@@ -21,7 +22,7 @@ public class DetailActivity extends BaseMvpActivity<DetailMVPContract.DetailPres
     @NonNull
     @Override
     protected DetailMVPContract.DetailPresenter createPresenter() {
-        return new DetailPresenterImpl();
+        return new DetailPresenter();
     }
 
     @Override
@@ -40,11 +41,17 @@ public class DetailActivity extends BaseMvpActivity<DetailMVPContract.DetailPres
         ThreadFactory.provideNewThread(() -> presenter.getDetailData()).start();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MvpLibExampleApp.watch(this);
+    }
+
     private void initButton() {
-        final Button showSnackbarButton = (Button) findViewById(R.id.show_snackbar);
+        final Button snackbarButton = (Button) findViewById(R.id.show_snackbar);
         //noinspection ConstantConditions
 
-        showSnackbarButton.setOnClickListener(v -> showSnackbar());
+        snackbarButton.setOnClickListener(view -> showSnackbar());
     }
 
     private void showSnackbar() {

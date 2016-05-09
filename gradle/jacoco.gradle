@@ -37,6 +37,8 @@ project.afterEvaluate {
                 description =
                     "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
+                jacocoClasspath = configurations['androidJacocoAnt']
+
                 //Directory where the compiled class files are
                 classDirectories =
                     fileTree(dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
@@ -58,7 +60,8 @@ project.afterEvaluate {
                                            "src/$productFlavorName/java",
                                            "src/$buildTypeName/java"])
 
-                executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+                executionData = files(["${project.buildDir}/jacoco/${testTaskName}.exec",
+                                       "${buildDir}/outputs/code-coverage/connected/coverage.ec"])
 
             }
         }

@@ -19,7 +19,7 @@ task findbugs(type: FindBugs) {
     reportLevel = 'low'
 
     //Define path to classes
-    classes = files("${project.rootDir}/lib-example/build/intermediates/classes")
+    classes = files("${project.rootDir}/${project.name}/build/intermediates/classes")
 
     //Add source that should be checked by findbugs
     source 'src'

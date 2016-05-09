@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements MVPContract.MainV
     protected void onCreate(final Bundle savedState) {
         super.onCreate(savedState);
         setContentView(R.layout.activity_main);
-        presenter = new MainPresenterImpl();
+        presenter = new MainPresenter();
         presenter.attachView(this);
 
         dataView = (TextView) findViewById(R.id.data_view);
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MVPContract.MainV
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // All the things on other threads!
 
-    @NonNull private static final Handler MAIN_THREAD_HANDLER = new Handler(Looper.getMainLooper());
+    @NonNull private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
 
     private boolean isAlive;
 
@@ -63,11 +63,11 @@ public class MainActivity extends AppCompatActivity implements MVPContract.MainV
         isAlive = false;
     }
 
-    protected void runOnUiThreadIfAlive(@NonNull Runnable runnable) {
+    protected void runOnUiThreadIfAlive(@NonNull final Runnable runnable) {
         if (Looper.myLooper() == Looper.getMainLooper() && isAlive) {
             runnable.run();
         } else {
-            MAIN_THREAD_HANDLER.post(() -> {
+            MAIN_HANDLER.post(() -> {
                 if (isAlive) {
                     runnable.run();
                 }

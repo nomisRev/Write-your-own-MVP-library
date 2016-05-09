@@ -1,22 +1,22 @@
-package be.appfoundry.libexample.ui.detail;
+package be.appfoundry.libexample.ui.master;
 
 import be.appfoundry.libexample.lib.BasePresenter;
 import be.appfoundry.libexample.service.DataService;
 import be.appfoundry.libexample.service.ServiceFactory;
 
-public class DetailPresenterImpl extends BasePresenter<DetailMVPContract.DetailView>
-    implements DetailMVPContract.DetailPresenter {
+public class MasterPresenter extends BasePresenter<MasterMVPContract.MasterView>
+    implements MasterMVPContract.MasterPresenter {
 
     private final DataService dataService;
 
-    DetailPresenterImpl() {
+    MasterPresenter() {
         dataService = ServiceFactory.provideDataService();
     }
 
     @Override
-    public void getDetailData() {
+    public void getData() {
         if (isViewAttached()) {
-            view.showData(dataService.getDetailObject());
+            view.showData(dataService.getMasterObject());
         }
     }
 }

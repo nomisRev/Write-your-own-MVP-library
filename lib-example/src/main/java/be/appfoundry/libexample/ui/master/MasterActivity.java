@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Button;
 import android.widget.TextView;
+import be.appfoundry.libexample.MvpLibExampleApp;
 import be.appfoundry.libexample.R;
 import be.appfoundry.libexample.core.ThreadFactory;
 import be.appfoundry.libexample.lib.BaseMvpActivity;
@@ -20,7 +21,7 @@ public class MasterActivity extends BaseMvpActivity<MasterMVPContract.MasterPres
     @Override
     @NonNull
     protected MasterMVPContract.MasterPresenter createPresenter() {
-        return new MasterPresenterImpl();
+        return new MasterPresenter();
     }
 
     @Override
@@ -41,12 +42,13 @@ public class MasterActivity extends BaseMvpActivity<MasterMVPContract.MasterPres
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        MvpLibExampleApp.watch(this);
     }
 
     private void initButton() {
         final Button detailButton = (Button) findViewById(R.id.detail_button);
         //noinspection ConstantConditions
-        detailButton.setOnClickListener(v -> launchDetailActivity());
+        detailButton.setOnClickListener(view -> launchDetailActivity());
     }
 
     private void launchDetailActivity() {
