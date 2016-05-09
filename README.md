@@ -95,12 +95,12 @@ The Presenter is pretty straight forward if you're familiar with Java.
 
 * Our View is our Activity, so let's analyze what happens here.
 `public class MainActivity extends AppCompatActivity implements MVPContract.MainView {`
-1. We implement our `MVPContract.MainView` to ensure our MPV View upholds its contract.
-2. The activity holds a reference to the `Presenter`
-3. Create the `Presenter` in `onCreate` and attach ourself to it.
-4. In `onDestroy` we detach ourself.
+    1. We implement our `MVPContract.MainView` to ensure our MPV View upholds its contract.
+    2. The activity holds a reference to the `Presenter`
+    3. Create the `Presenter` in `onCreate` and attach ourself to it.
+    4. In `onDestroy` we detach ourself.
 
-* This is the minimum functionality we want for every View, so if we abstract that and create a `BaseMVPContract` with a `BaseMvpView`. We can create an abstract class `BaseMvpActivity` we extend from to create our `Views`.
+* This is the minimum functionality we need for every View, so let's create a `BaseMVPContract` with a `BaseMvpView`. And an abstract class `BaseMvpActivity` we extend from to create our `Views`.
 * Our `BaseMvpView` doesn't require any initial functionality because it's only responsible for showing data. Showing data is case specific so it becomes an empty interface.
 
 ```java
