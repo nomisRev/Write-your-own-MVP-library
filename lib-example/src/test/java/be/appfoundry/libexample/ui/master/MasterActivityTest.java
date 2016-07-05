@@ -4,16 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.TextView;
-import be.appfoundry.libexample.BuildConfig;
 import be.appfoundry.libexample.R;
+import be.appfoundry.libexample.CustomRobolectricGradleTestRunner;
 import be.appfoundry.libexample.model.DataObject;
 import be.appfoundry.libexample.ui.detail.DetailActivity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowIntent;
 
@@ -22,8 +20,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(CustomRobolectricGradleTestRunner.class)
+//@Config(constants = BuildConfig.class, sdk = 21)
 public class MasterActivityTest {
 
     final String dataString = "TEST STRING";

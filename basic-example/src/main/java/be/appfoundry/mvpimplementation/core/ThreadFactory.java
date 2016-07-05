@@ -9,7 +9,9 @@ public final class ThreadFactory {
     }
 
     @NonNull
-    public static Thread provideNewThread(Runnable runna) {
-        return new Thread(runna);
+    public static Thread provideNewThread(Runnable runnable) {
+        return new Thread(runnable);
     }
+
+
 }

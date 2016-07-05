@@ -1,17 +1,13 @@
 package be.appfoundry.mvpimplementation.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import be.appfoundry.mvpimplementation.BasicMvpApp;
 import be.appfoundry.mvpimplementation.R;
 import be.appfoundry.mvpimplementation.core.ThreadFactory;
 import be.appfoundry.mvpimplementation.model.DataObject;
 
-public class MainActivity extends AppCompatActivity implements MVPContract.MainView {
+public class MainActivity extends BaseActivity implements MVPContract.MainView {
 
     private MVPContract.MainPresenter presenter;
     private TextView dataView;
@@ -41,37 +37,5 @@ public class MainActivity extends AppCompatActivity implements MVPContract.MainV
     @Override
     public void showData(final DataObject dataObject) {
         runOnUiThreadIfAlive(() -> dataView.setText(dataObject.getDataString()));
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // All the things on other threads!
-
-    @NonNull private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
-
-    private boolean isAlive;
-
-    //Don't change the views on the main thread before onResume or after onPause()
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isAlive = true;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        isAlive = false;
-    }
-
-    protected void runOnUiThreadIfAlive(@NonNull final Runnable runnable) {
-        if (Looper.myLooper() == Looper.getMainLooper() && isAlive) {
-            runnable.run();
-        } else {
-            MAIN_HANDLER.post(() -> {
-                if (isAlive) {
-                    runnable.run();
-                }
-            });
-        }
     }
 }

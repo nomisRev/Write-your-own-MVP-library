@@ -12,6 +12,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -31,6 +32,27 @@ public class MainActivityTest {
     public void preConditions() {
         Activity activity = Robolectric.buildActivity(MainActivity.class).get();
         assertNotNull(activity);
+    }
+
+    @Test
+    public void testIsAliveBeforeOnResume() {
+        MainActivity activity = Robolectric.buildActivity(MainActivity.class).create().start().get();
+        assertFalse(activity.isAlive());
+    }
+
+    @Test
+    public void testIsAliveAfterOnResume() {
+        MainActivity activity = Robolectric.buildActivity(MainActivity.class).create().start().resume().get();
+        assertTrue(activity.isAlive());
+    }
+
+    @Test
+    public void testIsAliveImmutable() {
+        MainActivity activity = Robolectric.buildActivity(MainActivity.class).create().start().resume().get();
+        assertTrue(activity.isAlive());
+        boolean testImmutability = activity.isAlive();
+        testImmutability = false;
+        assertTrue(activity.isAlive());
     }
 
     @Test

@@ -55,21 +55,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     debugCompile(libraries.leak_canary)
-
-    releaseCompile(libraries.leak_canary_release)
-
-    compile(libraries.android_appcompat,libraries.design_support)
-
-    androidTestCompile(
-        libraries.espresso,
+    androidTestCompile(libraries.espresso,
         libraries.espresso_runner,
         libraries.support_annotations,
         libraries.leak_canary_release)
-
-    testCompile(libraries.junit, libraries.robolectric,libraries.leak_canary_release)
+    testCompile(libraries.junit, libraries.robolectric, libraries.leak_canary_release)
+    releaseCompile(libraries.leak_canary_release)
+    compile(libraries.android_appcompat, libraries.design_support)
 }
 
 def buildVersionName(versionMajor, versionMinor, versionPatch) {
