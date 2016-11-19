@@ -74,13 +74,6 @@ def buildVersionCode(versionMajor, versionMinor, versionPatch, versionBuild) {
     return versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
 }
 
-test {
-    testLogging {
-        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
-        exceptionFormat 'full'
-    }
-}
-
 String java8 = getJavaVersion(8)
 String java7 = getJavaVersion(7)
 retrolambda {
