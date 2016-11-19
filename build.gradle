@@ -63,6 +63,9 @@ buildscript {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "me.tatarka:gradle-retrolambda:$retrolamda_version"
+        classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
+        
+        configurations.classpath.exclude group: 'com.android.tools.external.lombok'
     }
 }
 
