@@ -1,13 +1,11 @@
 language: android
 android:
   components:
-    # The BuildTools version used by your project
+    - platform-tools
+    - tools
     - build-tools-23.0.3
-
-    # The SDK version used to compile your project
     - android-23
-    
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
+    - extra-android-m2repository
+    - extra-google-m2repository
     - sys-img-armeabi-v7a-android-22
     - sys-img-x86-android-17
