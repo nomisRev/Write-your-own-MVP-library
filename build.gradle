@@ -3,7 +3,7 @@
 buildscript {
     ext {
         //LIBS
-        android_support_version = "23.3.0"
+        android_support_version = "24.0.0"
         retrofit2_version = "2.0.2"
         okhttp3_version = "3.2.0"
         dagger_version = "2.4"
