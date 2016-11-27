@@ -13,6 +13,7 @@ android:
   - tools
   - platform-tools
   - build-tools-24.0.0
+  - android-24
   - ${ANDROID_TARGET}
   - extra-android-m2repository
   - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
