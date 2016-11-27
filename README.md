@@ -1,4 +1,5 @@
-# Write your own Android MVP library [![Build Status](https://travis-ci.org/nomisRev/Write-your-own-MVP-library.svg?branch=master)](https://travis-ci.org/nomisRev/Write-your-own-MVP-library)
+# Write your own Android MVP library [![Build Status](https://travis-ci.org/nomisRev/Write-your-own-MVP-library.svg?branch=master)](https://travis-ci.org/nomisRev/Write-your-own-MVP-library) [![codecov](https://codecov.io/gh/nomisRev/Write-your-own-MVP-library/branch/master/graph/badge.svg)](https://codecov.io/gh/nomisRev/Write-your-own-MVP-library)
+
 
 With all the MVP hype lately lets talk about what MVP is and how you can create your very own library that is perfect for your requirements.
 
